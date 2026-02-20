@@ -1,210 +1,169 @@
-# Vinculación Sísmico Backend
+# 🏛️ Vinculación Sísmico Backend
 
-API REST para el sistema de gestión de inspecciones sísmicas de edificios. Este backend proporciona servicios para la autenticación de usuarios, gestión de edificios, catálogos y administración de roles.
+API REST robusta diseñada para el sistema de gestión de inspecciones sísmicas de edificios. Este backend centraliza la autenticación, la lógica de evaluación estructural, el envío de notificaciones por correo y el almacenamiento de evidencias fotográficas en la nube.
 
+---
 <img width="1344" height="619" alt="image" src="https://github.com/user-attachments/assets/107a674e-670a-489c-8c2d-3b3332bf6a50" />
 
-## Arquitectura
+## 🏗️ Arquitectura del Proyecto
 
-El proyecto sigue una arquitectura limpia con separación de responsabilidades:
+El proyecto implementa una arquitectura limpia con separación de responsabilidades para asegurar la escalabilidad y mantenibilidad:
 
+```text
+├── server.js                 # Punto de entrada de la aplicación
+├── data/
+│   ├── knexConfiguration.js  # Configuración del Query Builder (Knex)
+│   └── databaseTables.js     # Mapeo de tablas y esquemas de la DB
+├── lib/
+│   ├── controllers/          # Manejo de peticiones HTTP
+│   ├── services/             # Lógica de negocio y procesos complejos
+│   ├── repositories/         # Consultas directas a la base de datos
+│   ├── middleware/           # Seguridad (JWT) y validaciones de acceso
+│   ├── routes/               # Definición de rutas y endpoints
+│   ├── schema/               # Validaciones de integridad con Zod
+│   └── supabase/             # Cliente y gestión de Supabase Storage (Migrado de Firebase)
+└── utils.js                  # Utilidades generales (Envío de correos, etc.)
 ```
-lib/
-├── controllers/     # Controladores HTTP
-├── services/        # Lógica de negocio
-├── repositories/    # Acceso a datos
-├── middleware/      # Middlewares de autenticación y validación
-├── routes/          # Definición de rutas
-├── schema/          # Validaciones con Zod
-└── firebase/        # Configuración de Firebase Storage
-```
 
-## Características
+---
 
-- **Autenticación JWT** con tokens de acceso
-- **Gestión de usuarios** con roles (admin, inspector, ayudante)
-- **Subida de archivos** a Firebase Storage
-- **Validaciones robustas** con Zod
-- **Base de datos PostgreSQL** con Knex.js
-- **Documentación automática** con Swagger
-- **Arquitectura modular** y escalable
+## 🚀 Características Principales
 
-## Prerrequisitos
+- 🔐 **Autenticación JWT:**  
+  Sistema de seguridad basado en tokens de acceso y refresco.
 
-- Node.js (v16 o superior)
-- PostgreSQL(Supabase)
-- Cuenta de Firebase (para Storage)
-- npm 
+- 📦 **Almacenamiento en Supabase:**  
+  Gestión de evidencias fotográficas utilizando Supabase Storage  
+  *(Bucket: `fotos_sistema`)*.
 
-## Instalación
+- 📧 **Sistema de Notificaciones:**  
+  Envío de correos automáticos para recuperación de cuentas mediante NodeMailer (Gmail SMTP).
 
-1. **Clona el repositorio:**
+- 🛠️ **Consultas Optimizadas:**  
+  Uso de Knex.js para interactuar con PostgreSQL de forma segura y eficiente.
+
+- 🛡️ **Validaciones:**  
+  Esquemas de datos estrictos mediante Zod para prevenir errores de entrada.
+
+- 📖 **API Docs:**  
+  Documentación interactiva y pruebas de endpoints vía Swagger UI.
+
+---
+
+## 🛠️ Prerrequisitos
+
+- **Node.js:** v16 o superior.  
+- **Base de Datos:** PostgreSQL (Alojada en Supabase).  
+- **Almacenamiento:** Bucket configurado en Supabase Storage.  
+- **SMTP:** Cuenta de Gmail con "Contraseña de Aplicación" para envíos automáticos.
+
+---
+
+## 📥 Instalación y Configuración
+
+### 1️⃣ Clona el repositorio
+
 ```bash
-git clone [https://github.com/kevonlemon/vinculacion-sismico-backend.git]
+git clone https://github.com/kevonlemon/vinculacion-sismico-backend.git
 cd vinculacion-sismico-backend
 ```
 
-2. **Instala las dependencias:**
+### 2️⃣ Instala las dependencias
+
 ```bash
-npm i
+npm install
 ```
 
-3. **Configura las variables de entorno:**
-Crea un archivo `.env` en la raíz del proyecto:
+### 3️⃣ Configura el entorno (.env)
+
+Crea un archivo `.env` en la raíz del proyecto y completa con tus credenciales:
+
 ```env
-# Base de datos
-DB_HOST=localhost
+# === BASE DE DATOS (SUPABASE) ===
+DB_HOST=aws-1-us-east-1.pooler.supabase.com
+DB_USER=postgres.xdugpymasjrvhbuakoec
+DB_PASSWORD=EvaluacionSIS2026
 DB_PORT=5432
-DB_NAME=vinculacion_sismico
-DB_USER=tu_usuario
-DB_PASSWORD=tu_contraseña
+DB_NAME=postgres
+DB_TEST_SCHEMA=public
+DATABASE_URL=postgresql://postgres:EvaluacionSIS2026@db.xdugpymasjrvhbuakoec.supabase.co:5432/postgres
 
-# JWT
-JWT_ACCESS_SECRET=tu_jwt_secret_muy_seguro
-JWT_REFRESH_SECRET=tu_refresh_secret_muy_seguro
+# === CONFIGURACIÓN DE CORREO (SMTP) ===
+EMAIL_USER=e.valuacionsismica2002@gmail.com
+EMAIL_PASS=yezqmkpblrxjzgot
 
-# Firebase
-FIREBASE_PRIVATE_KEY=""
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@sistema-vulnerabilidad-sismica.iam.gserviceaccount.com
-FIREBASE_PROJECT_ID=sistema-vulnerabilidad-sismica
+# === SUPABASE STORAGE ===
+SUPABASE_URL=https://xdugpymasjrvhbuakoec.supabase.co
+SUPABASE_ANON_KEY=tu_anon_key_completa_aqui
+STORAGE_BUCKET=fotos_sistema
 
-DOMAIN_URL_FIREBASE_STORAGE=https://storage.googleapis.com
-STORAGE_BUCKET=sistema-vulnerabilidad-sismica.firebasestorage.app
-
-# Servidor
+# === SERVIDOR ===
 PORT=3000
+JWT_ACCESS_SECRET=ejemploToken
+JWT_REFRESH_SECRET=ejemplorefreshToken
+NODE_ENV=development
 ```
 
-4. **Configura Firebase:**
-- Coloca las credenciales de Firebase en el archivo .env
-- Actualiza la configuración en `lib/firebase/firebase.js`
+---
 
-5. **Configura la base de datos:**
-- Crea la base de datos PostgreSQL(Supabase)
+## 🔐 Endpoints Principales
 
-## Ejecución
+| Módulo        | Endpoint          | Método | Descripción |
+|--------------|------------------|--------|------------|
+| Auth         | `/auth/login`     | POST   | Inicio de sesión y generación de token. |
+| Auth         | `/auth/register`  | POST   | Registro de nuevos usuarios. |
+| Usuarios     | `/users/active`   | GET    | Obtener lista de personal activo. |
+| Edificios    | `/buildings`      | GET    | Listar edificaciones registradas. |
+| Inspecciones | `/inspecciones`   | POST   | Crear nueva evaluación técnica. |
+| Catálogos    | `/catalogues`     | GET    | Obtener catálogos del sistema. |
 
-### Desarrollo (con auto-reload):
+---
+
+## 📁 Esquema de Base de Datos (Tablas)
+
+El sistema opera bajo el esquema definido en `databaseTables.js`:
+
+- `usuarios` → Gestión de cuentas y roles.  
+- `inspecciones` / `edificios` → Datos estructurales y técnicos.  
+- `archivos_inspeccion` → Referencias a archivos en el storage.  
+- `matriz_puntuacion` → Lógica de cálculo de resultados.
+
+---
+
+## 🏃 Ejecución
+
+### 🔧 Desarrollo (Auto-reload)
+
 ```bash
 node --watch server.js
 ```
 
-### Producción:
+### 🚀 Producción
+
 ```bash
 node server.js
 ```
 
-El servidor se iniciará en `http://localhost:3000`
+### 📖 Acceso a Documentación
 
-## Documentación API
+Una vez iniciado el servidor, visita la interfaz de Swagger en:
 
-Una vez que el servidor esté ejecutándose, puedes acceder a la documentación interactiva de Swagger en:
 ```
 http://localhost:3000/api-docs
 ```
 
-## 🔐 Endpoints Principales
+---
 
-### Autenticación
-- `POST /auth/login` - Iniciar sesión
-- `POST /auth/register` - Registrar usuario
+## 🛡️ Autenticación y Seguridad
 
-### Usuarios
-- `GET /users` - Obtener todos los usuarios activos
-- `GET /users/byRole/:role` - Obtener usuarios por rol específico
-- `GET /users/:id` - Obtener usuario por ID
-- `PUT /users/:id` - Actualizar usuario (datos personales y foto de perfil)
-- `PATCH /users/:id/role` - Actualizar rol de usuario (Solo administradores)
+Para acceder a las rutas protegidas, debe incluir el token JWT en la cabecera de la petición:
 
-### Edificios
-- `GET /buildings` - Listar edificios
-- `POST /buildings` - Crear edificio
-- `GET /buildings/:id` - Obtener edificio específico
-
-### Catálogos
-- `GET /catalogues` - Obtener catálogos del sistema
-
-## 🛡️ Autenticación
-
-El sistema utiliza JWT para autenticación. Para acceder a rutas protegidas:
-
-1. Realiza login en `/auth/login`
-2. Incluye el token en el header: `Authorization: Bearer <token>`
-
-### Roles de Usuario
-- **admin**: Acceso completo al sistema, puede gestionar roles de usuarios
-- **inspector**: Puede crear y gestionar inspecciones
-- **ayudante**: Acceso limitado de solo lectura
-
-### Detalles de Endpoints de Usuarios
-
-#### `GET /users/active`
-- **Descripción**: Obtiene todos los usuarios activos del sistema
-- **Permisos**: Requiere autenticación
-- **Respuesta**: Array de usuarios con toda su información
-
-#### `GET /users/byRole/:role` 
-- **Descripción**: Obtiene usuarios filtrados por rol específico (admin, inspector, ayudante)
-- **Permisos**: Requiere autenticación
-- **Parámetros**: `role` - Rol a filtrar
-- **Respuesta**: Array de usuarios activos con el rol especificado
-
-#### `PUT /users/:id`
-- **Descripción**: Actualiza información personal del usuario (nombre, email, teléfono, foto de perfil, contraseña)
-- **Permisos**: Requiere autenticación
-- **Características**: 
-  - Actualización parcial (solo los campos enviados)
-  - Requiere contraseña actual para cambiar contraseña
-  - Soporte para subida de foto de perfil
-  - Preserva datos existentes si se envían campos vacíos
-
-#### `PATCH /users/:id/role`
-- **Descripción**: Actualiza el rol de un usuario
-- **Permisos**: Solo administradores
-- **Características**: Cambio inmediato de permisos sin necesidad de re-login
-
-## 📁 Estructura de Archivos
-
-```
-├── server.js              # Punto de entrada
-├── data/
-│   ├── database.js         # Configuración de base de datos
-│   └── databaseTables.js   # Definición de tablas
-├── lib/
-│   ├── controllers/        # Lógica de controladores
-│   ├── services/          # Lógica de negocio
-│   ├── repositories/      # Acceso a datos
-│   ├── middleware/        # Middlewares
-│   ├── routes/           # Definición de rutas
-│   ├── schema/           # Validaciones Zod
-│   └── firebase/         # Configuración Firebase
-├── utils.js              # Utilidades generales
-├── anomaly.js           # Códigos de error
-└── README.md
+```http
+Authorization: Bearer <TU_TOKEN_AQUI>
 ```
 
-## Flujo de Datos
+### 👥 Roles de Usuario
 
-1. **Request** → Router → Middleware → Controller
-2. **Controller** → Service → Repository → Database
-3. **Response** ← Controller ← Service ← Repository
-
-
-## Dependencias Principales
-
-- **Express.js** - Framework web
-- **Knex.js** - Query builder para PostgreSQL
-- **JWT** - Autenticación
-- **Zod** - Validación de schemas
-- **Multer** - Manejo de archivos
-- **Firebase Admin** - Storage en la nube
-- **Bcrypt** - Hashing de contraseñas
-- **Swagger** - Documentación API
-
-## Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
+- **admin:** Control total, gestión de usuarios y roles.  
+- **inspector:** Creación y edición de inspecciones sísmicas.  
+- **ayudante:** Acceso de consulta limitado.
