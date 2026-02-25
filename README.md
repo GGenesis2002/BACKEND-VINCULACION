@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # 🏛️ Vinculación Sísmico Backend 2026
-=======
-# 🏛️ Vinculación Sísmico Backend
->>>>>>> ce775de9929911cb5dfa0e7dccfcdbd184ef2b54
 
 API REST robusta diseñada para el sistema de gestión de inspecciones sísmicas de edificios. Este backend centraliza la autenticación, la lógica de evaluación estructural, el envío de notificaciones por correo y el almacenamiento de evidencias fotográficas en la nube.
 
