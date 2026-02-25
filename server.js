@@ -34,12 +34,7 @@ app.use((req, res, next) => {
   next();
 }); 
 
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    message: 'API funcionando'
-  });
-});
+
 
 app.use(
   "/api-docs",
