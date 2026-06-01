@@ -80,28 +80,28 @@ Crea un archivo `.env` en la raíz del proyecto y completa con tus credenciales:
 
 ```env
 # === BASE DE DATOS (SUPABASE) ===
-DB_HOST=aws-1-us-east-1.pooler.supabase.com
-DB_USER=postgres.xdugpymasjrvhbuakoec
-DB_PASSWORD=EvaluacionSIS2026
-DB_PORT=5432
+DB_HOST=aws-1-us-east-2.pooler.supabase.com
+DB_USER=postgres.gsjbejxrqumqpqfpvpmp
+DB_PASSWORD=Vinculaci@n12345.
+DB_PORT=6543
 DB_NAME=postgres
 DB_TEST_SCHEMA=public
-DATABASE_URL=postgresql://postgres:EvaluacionSIS2026@db.xdugpymasjrvhbuakoec.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres.gsjbejxrqumqpqfpvpmp:Vinculaci%40n12345.@aws-1-us-east-2.pooler.supabase.com:6543/postgres
 
 # === CONFIGURACIÓN DE CORREO (SMTP) ===
-EMAIL_USER=e.valuacionsismica2002@gmail.com
-EMAIL_PASS=yezqmkpblrxjzgot
+EMAIL_USER=vinculacionsismica@gmail.com
+EMAIL_PASS=zogpfgldbrepjdbh
 
 # === SUPABASE STORAGE ===
-SUPABASE_URL=https://xdugpymasjrvhbuakoec.supabase.co
-SUPABASE_ANON_KEY=tu_anon_key_completa_aqui
+SUPABASE_URL=https://gsjbejxrqumqpqfpvpmp.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzamJlanhycXVtcXBxZnB2cG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNjU5OTQsImV4cCI6MjA5NTg0MTk5NH0.j97oHACM1K6bM0QL_5fTEyNOX4CzgZqhyHglLxk9ekE
 STORAGE_BUCKET=fotos_sistema
 
 # === SERVIDOR ===
 PORT=3000
 JWT_ACCESS_SECRET=ejemploToken
 JWT_REFRESH_SECRET=ejemplorefreshToken
-NODE_ENV=development
+NODE_ENV=production
 ```
 
 ---
