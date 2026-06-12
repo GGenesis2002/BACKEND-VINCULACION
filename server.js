@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRouter from "./lib/routes/authRouter.js";
-import userRouter from "./lib/routes/userRouter.js";
-import catalogueRouter from "./lib/routes/catalogueRouter.js";
 import { swaggerSpec, swaggerUiExpress } from "./swagger.js";
-import buildingRouter from "./lib/routes/buildingRouter.js";
-import inspectionRouter from "./lib/routes/inspectionRouter.js";
+import usuariosModule from "./modules/usuarios/index.js";
+import edificiosModule from "./modules/edificios/index.js";
+import inspeccionesModule from "./modules/inspecciones/index.js";
+import auditoriaModule from "./modules/auditoria/index.js";
+import catalogosModule from "./modules/catalogos/index.js";
 
 dotenv.config();
 const app = express();
@@ -45,10 +45,10 @@ app.use(
     },
   })
 );
-app.use("/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/catalogues", catalogueRouter);
-app.use("/buildings", buildingRouter);
-app.use("/inspections", inspectionRouter);
+app.use("/api/v1", usuariosModule);
+app.use("/api/v1", edificiosModule);
+app.use("/api/v1", inspeccionesModule);
+app.use("/api/v1", auditoriaModule);
+app.use("/api/v1", catalogosModule);
 
 
