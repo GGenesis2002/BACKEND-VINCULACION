@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+// ─── Existentes (sin cambios) ────────────────────────────────────────────────
+
 export const UpdateUsuarioSchema = z
   .object({
     nombre: z.string().trim().min(5, "El nombre debe tener al menos 5 caracteres").optional(),
@@ -22,7 +24,29 @@ export const UpdateUsuarioSchema = z
   );
 
 export const UpdateRolSchema = z.object({
-  rol: z.enum(["admin", "inspector", "ayudante"], {
-    errorMap: () => ({ message: "El rol debe ser admin, inspector o ayudante" }),
+  rol: z.enum(["administrador", "inspector", "ayudante"], {
+    errorMap: () => ({ message: "El rol debe ser administrador, inspector o ayudante" }),
   }),
+});
+
+// ─── Nuevos ──────────────────────────────────────────────────────────────────
+
+/** Body para activar / desactivar un usuario */
+export const CambiarEstadoUsuarioSchema = z.object({
+  activo: z.boolean({ required_error: "El campo activo es requerido (true/false)" }),
+});
+
+/** Query params para el listado admin */
+export const FiltrosAdminSchema = z.object({
+  busqueda: z.string().trim().optional(),
+  activo: z
+    .string()
+    .optional()
+    .transform((v) => {
+      if (v === undefined) return undefined;
+      if (v === "true")  return true;
+      if (v === "false") return false;
+      return undefined;
+    }),
+  rol: z.enum(["administrador", "inspector", "ayudante"]).optional(),
 });
