@@ -7,7 +7,7 @@ import {
   UpdateRolSchema,
   CambiarEstadoUsuarioSchema,
   FiltrosAdminSchema,
-} from "./usuarios_schema.js";
+} from "./usuarios.schema.js";
 import usuariosRepository from "./usuarios.repository.js";
 
 // ─── Existentes (sin cambios) ────────────────────────────────────────────────
