@@ -1,5 +1,5 @@
 import * as utils from "../../../utils.js";
-import usuariosService from "./usuarios_service.js";
+import usuariosService from "./usuarios.service.js";
 
 // ─── Existentes (sin cambios) ────────────────────────────────────────────────
 
