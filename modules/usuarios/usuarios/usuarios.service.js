@@ -8,7 +8,7 @@ import {
   CambiarEstadoUsuarioSchema,
   FiltrosAdminSchema,
 } from "./usuarios_schema.js";
-import usuariosRepository from "./usuarios_repository.js";
+import usuariosRepository from "./usuarios.repository.js";
 
 // ─── Existentes (sin cambios) ────────────────────────────────────────────────
 
